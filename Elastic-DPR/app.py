@@ -24,7 +24,7 @@ retriever = DensePassageRetriever(document_store=document_store,
                                   embed_title=True,
                                   use_fast_tokenizers=True)
 
-document_store.update_embeddings(retriever)
+# document_store.update_embeddings(retriever)
 
 logger.info("Initialization of reader.")
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=False)
