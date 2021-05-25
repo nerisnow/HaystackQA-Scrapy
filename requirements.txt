@@ -1,0 +1,4 @@
+ujson==4.0.1
+Scrapy==2.5.0
+beautifulsoup4==4.9.3
+elasticsearch==7.10.0

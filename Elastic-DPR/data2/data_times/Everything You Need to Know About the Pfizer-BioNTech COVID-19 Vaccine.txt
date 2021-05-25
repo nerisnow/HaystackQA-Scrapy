@@ -1,0 +1,13 @@
+What kind of vaccine is it?
+The Pfizer-BioNTech vaccine is based on mRNA technology.
+
+How does it work?
+Pfizer-BioNTech’s vaccine is the first mRNA vaccine authorized by the U.S. Food and Drug Administration. It relies on genetic material called mRNA, which codes for proteins. In this vaccine’s case, the mRNA codes for a version of the so-called spike protein that covers the surface of the COVID-19 virus. Once injected in the body, the vaccine causes certain immune cells to produce this viral protein so the body can learn to fight COVID-19 infection in two ways. First, if any cells ever get infected with the virus and carry the spike protein, immune cells can make antibodies that stick to the viral protein like Velcro and neutralize the virus so it can’t infect even more cells and make additional copies of itself. Second, killer cells can directly attack and destroy any cells infected with the viral protein.
+
+How effective is it?
+According to studies the companies conducted involving 44,000 people in the US, Argentina, Brazil, Germany, South Africa and Turkey, the vaccine is 95% effective in protecting people from COVID-19 disease. That means that the shot strongly protects people from getting sick with COVID-19, but may not necessarily protect them from getting infected with the virus in the first place. Those studies are still ongoing.
+
+Are there any side effects?
+Most of the side effects reported in the clinical trials for the vaccine were mild and relatively rare, including swelling and redness at the injection site, and muscle pain. However, after the vaccine was rolled out in the U.K. and the U.S., several people with a history of anaphylactic reactions to shots reported serious reactions to the vaccine. The U.S. Centers for Disease Control and Prevention are now investigating a couple dozen reports of anaphylactic reactions to both the Pfizer and Moderna shots.
+
+For now, U.K. and U.S. health officials warn that people who are allergic to any of the components of the vaccine should not get the shot.

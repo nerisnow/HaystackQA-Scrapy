@@ -1,0 +1,583 @@
+<!doctype html>
+
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <title>Interactive Analysis of Sentence Embeddings</title>
+  <meta name="description"
+    content="Learn how to interactively explore sentence embeddings and labels in Tensorflow Embedding Projector">
+  <meta name="author" content="Amit Chaudhary">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Amit Chaudhary">
+  <meta property="og:title" content="Interactive Analysis of Sentence Embeddings">
+  <meta property="og:url" content="https://amitness.com/interactive-sentence-embeddings/">
+  <meta property="og:description"
+    content="Learn how to interactively explore sentence embeddings and labels in Tensorflow Embedding Projector">
+  <meta property="og:image" content="https://amitness.com/images/projector-header.png">
+  <meta name="twitter:site" content="@amitness">
+  <meta name="twitter:title" content="Interactive Analysis of Sentence Embeddings">
+  <meta name="twitter:description"
+    content="Learn how to interactively explore sentence embeddings and labels in Tensorflow Embedding Projector">
+  <meta name="twitter:url" content="https://amitness.com/interactive-sentence-embeddings/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://amitness.com/images/projector-header.png">
+  <meta property="article:published_time" content="2020-09-24T05:45:00+05:45">
+  <meta property="article:modified_time" content="2020-10-08T05:45:00+05:45">
+  <link rel="canonical" href="https://amitness.com/interactive-sentence-embeddings/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Amit Chaudhary",
+      "url": "https://amitness.com/",
+      "sameAs": ["https://twitter.com/amitness","https://www.facebook.com/amitify","https://www.linkedin.com/in/amitness"]
+    
+  }
+</script>
+  <meta name="google-site-verification" content="xETphZ5K1WItiUzH0YMRgZ8njDZlQMcGd_HD3zxGkuI" />
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Amit Chaudhary Feed">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+  <!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <meta name="theme-color" content="#ffffff">
+
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+     extensions: ["tex2jax.js"],
+     jax: ["input/TeX", "output/HTML-CSS"],
+     tex2jax: {
+       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+       processEscapes: true,
+       preview: 'none'
+     },
+     messageStyle: 'none',
+     "HTML-CSS": { availableFonts: ["TeX"] }
+   });
+
+</script>
+  <style>
+    .bg-color-red {
+      background-color: #ffebee;
+    }
+
+    .bg-color-green {
+      background-color: #e8f5e9;
+    }
+
+    .bg-color-yellow {
+      background-color: #fff3e0;
+    }
+
+    .bg-color-dark-green {
+      background-color: #c8e6c9;
+    }
+
+    .bg-color-pink {
+      background-color: #ffcdd2;
+    }
+
+    .bg-color-purple {
+      background-color: #c5cae9;
+    }
+
+    .pwc-icon {
+      width: 23px;
+      height: 23px;
+      position: relative;
+      top: 5px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+
+<body class="layout--single wide">
+  <nav class="skip-links">
+    <h2 class="screen-reader-text">Skip links</h2>
+    <ul>
+      <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+      <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+      <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+    </ul>
+  </nav>
+  <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+  <div class="masthead">
+    <div class="masthead__inner-wrap">
+      <div class="masthead__menu">
+        <nav id="site-nav" class="greedy-nav">
+          <a class="site-title" href="/">
+            Amit Chaudhary
+          </a>
+          <ul class="visible-links">
+            <li class="masthead__menu-item">
+              <a href="/archives/">Posts</a>
+            </li>
+            <li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li>
+            <li class="masthead__menu-item">
+              <a href="/toolbox/">Toolbox</a>
+            </li>
+            <li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li>
+            <li class="masthead__menu-item">
+              <a href="/contact/">Contact</a>
+            </li>
+          </ul>
+          <button class="search__toggle" type="button">
+            <span class="visually-hidden">Toggle search</span>
+            <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+              <path
+                d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z"
+                transform="translate(-.01)"></path>
+            </svg>
+          </button>
+          <button class="greedy-nav__toggle hidden" type="button">
+            <span class="visually-hidden">Toggle menu</span>
+            <div class="navicon"></div>
+          </button>
+          <ul class="hidden-links hidden"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="initial-content">
+    <div id="main" role="main">
+      <div class="sidebar sticky">
+        <div itemscope itemtype="https://schema.org/Person">
+          <div class="author__avatar">
+            <img src="/images/bio-photo.jpg" alt="Amit Chaudhary" itemprop="image">
+          </div>
+          <div class="author__content">
+            <h3 class="author__name" itemprop="name">Amit Chaudhary</h3>
+            <div class="author__bio" itemprop="description">
+              <p>Research &amp;&amp; Engineering</p>
+            </div>
+          </div>
+          <div class="author__urls-wrapper">
+            <button class="btn btn--inverse">Follow</button>
+            <ul class="author__urls social-icons">
+              <li><a href="https://twitter.com/amitness" rel="nofollow noopener noreferrer"><i
+                    class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a>
+              </li>
+              <li><a href="https://github.com/amitness" rel="nofollow noopener noreferrer"><i
+                    class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+              <li><a href="https://www.getrevue.co/profile/amitness" rel="nofollow noopener noreferrer"><i
+                    class="fas fa-fw fa-envelope" aria-hidden="true"></i><span class="label">Subscribe</span></a></li>
+
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+        <meta itemprop="headline" content="Interactive Analysis of Sentence Embeddings">
+        <meta itemprop="description"
+          content="Learn how to interactively explore sentence embeddings and labels in Tensorflow Embedding Projector">
+        <meta itemprop="datePublished" content="2020-09-24T05:45:00+05:45">
+        <meta itemprop="dateModified" content="2020-10-08T05:45:00+05:45">
+        <div class="page__inner-wrap">
+          <header>
+            <h1 id="page-title" class="page__title" itemprop="headline">Interactive Analysis of Sentence Embeddings
+            </h1>
+            <p class="page__meta">
+              <span class="page__meta-readtime">
+                <i class="far fa-clock" aria-hidden="true"></i>
+                4 minute read
+              </span>
+            </p>
+          </header>
+          <section class="page__content" itemprop="text">
+            <p><a href="https://projector.tensorflow.org/">Embedding Projector</a> is a free web application for
+              visualizing high-dimensional data. It has built-in demos for visualizing word embeddings in NLP and image
+              embeddings for MNIST in Computer Vision.</p>
+            <p>I recently experimented with a way to load sentence embeddings along with the class labels into this tool
+              and explore them interactively. In this blog post, I will explain the end-to-end process with an example
+              dataset.</p>
+            <h2 id="toy-example-outlier-detection">Toy Example: Outlier Detection</h2>
+            <h3 id="1-preparing-dataset">1. Preparing Dataset</h3>
+            <p>To understand this use case, let’s take a subset of 100 movie reviews from the SST-2 dataset which are
+              labeled as positive and negative.</p>
+            <div class="language-python highlighter-rouge">
+              <div class="highlight">
+                <pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'http://bit.ly/dataset-sst2'</span><span class="p">,</span> 
+                 <span class="n">nrows</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s">'text'</span><span class="p">,</span> <span class="s">'label'</span><span class="p">])</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">'label'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'label'</span><span class="p">].</span><span class="n">replace</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s">'negative'</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s">'positive'</span><span class="p">})</span>
+</code></pre>
+              </div>
+            </div>
+            <p>The dataset has a column containing the text and a label indicating whether it’s positive or negative
+              opinion.</p>
+            <p><img src="/images/projector-head-5.png" alt="First 5 rows of SST-2 dataset" class="align-center" /></p>
+            <p>We will introduce noise into our dataset by corrupting five of the responses with random text. It will
+              act as an outlier for our example.</p>
+            <div class="language-python highlighter-rouge">
+              <div class="highlight">
+                <pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">91</span><span class="p">],</span> <span class="s">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'askgkn askngk kagkasng'</span>
+</code></pre>
+              </div>
+            </div>
+            <h3 id="2-generating-embeddings">2. Generating Embeddings</h3>
+            <p>Now, we will compute sentence embeddings for the headlines using the <code
+                class="language-plaintext highlighter-rouge">sentence-transformers</code> package. First, let’s install
+              it using pip.</p>
+            <div class="language-shell highlighter-rouge">
+              <div class="highlight">
+                <pre class="highlight"><code><span class="o">!</span>pip <span class="nb">install </span>sentence-transformers
+</code></pre>
+              </div>
+            </div>
+            <p>Next, we will create a helper function to return a NumPy array of sentence embeddings given a list of
+              sentences.</p>
+            <div class="language-python highlighter-rouge">
+              <div class="highlight">
+                <pre class="highlight"><code><span class="kn">from</span> <span class="nn">sentence_transformers</span> <span class="kn">import</span> <span class="n">SentenceTransformer</span>
+
+<span class="n">sentence_bert_model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="s">'distilbert-base-nli-stsb-mean-tokens'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_embeddings</span><span class="p">(</span><span class="n">sentences</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sentence_bert_model</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span>
+                                    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> 
+                                    <span class="n">show_progress_bar</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre>
+              </div>
+            </div>
+            <p>Using the above function, we can generate sentence embeddings for our data as shown below.</p>
+            <div class="language-python highlighter-rouge">
+              <div class="highlight">
+                <pre class="highlight"><code><span class="n">e</span> <span class="o">=</span> <span class="n">get_embeddings</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'text'</span><span class="p">])</span>
+<span class="c1"># shape: (100, 768)
+</span></code></pre>
+              </div>
+            </div>
+            <h3 id="3-exporting-to-embedding-projector-format">3. Exporting to Embedding Projector Format</h3>
+            <p>Embedding Projector requires two TSV files to load our custom embeddings.</p>
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">output.tsv</code>: This file should contain the
+                embeddings without any headers.</li>
+              <li><code class="language-plaintext highlighter-rouge">metadata.tsv</code>: This file should contain the
+                original text and labels for the embeddings</li>
+            </ul>
+            <p>Let’s first generate the <code class="language-plaintext highlighter-rouge">output.tsv</code> file for
+              our sentence embeddings from the previous step.</p>
+            <div class="language-python highlighter-rouge">
+              <div class="highlight">
+                <pre class="highlight"><code><span class="c1"># Convert NumPy array of embedding into data frame
+</span><span class="n">embedding_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="c1"># Save dataframe as as TSV file without any index and header
+</span><span class="n">embedding_df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'output.tsv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</code></pre>
+              </div>
+            </div>
+            <p>To generate <code class="language-plaintext highlighter-rouge">metadata.csv</code>, we simply save our
+              original dataframe.</p>
+            <div class="language-python highlighter-rouge">
+              <div class="highlight">
+                <pre class="highlight"><code><span class="c1"># Save dataframe without any index
+</span><span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'metadata.tsv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">)</span>
+</code></pre>
+              </div>
+            </div>
+            <h3 id="4-importing-into-embedding-projector">4. Importing into Embedding Projector</h3>
+            <p>We first go to <a href="https://projector.tensorflow.org/">https://projector.tensorflow.org/</a>.</p>
+            <p>On the left-hand sidebar, click the <strong>Load</strong> button.</p>
+            <p><img src="/images/projector-load-step-1.png" alt="Loading file in embedding projector"
+                class="align-center" /></p>
+            <p>Then, for the first <strong>Choose file</strong> button, upload the <code
+                class="language-plaintext highlighter-rouge">output.tsv</code> file and for the second <strong>Choose
+                file</strong> button, upload the <code class="language-plaintext highlighter-rouge">metadata.tsv</code>
+              file.</p>
+            <p><img src="/images/projector-load-step-2.png" alt="Choosing embeddings and metadata"
+                class="align-center" /></p>
+            <p>After uploading both files, click outside and you should see the sentence embedding projection. The
+              dimensions of embeddings are reduced to 3D by default using PCA.</p>
+            <p><img src="/images/projector-3d.png" alt="3D projection of embeddings" class="align-center" /></p>
+            <p>Let’s switch to 2D by turning off the checkbox for ‘Component #3’ in the bottom part of sidebar.</p>
+            <p><img src="/images/projector-turn-off-3d.png" alt="Switching from 3D to 2D using PCA"
+                class="align-center" /></p>
+            <p>On the 2D visualization, we can see how the random text is far from other groups of text as an
+              <strong>outlier</strong>. On hovering the point, we see the text <code
+                class="language-plaintext highlighter-rouge">askgkn askngk kagkasng</code>.</p>
+            <p><img src="/images/projector-outlier.gif" alt="Detecting outlier using projection" class="align-center" />
+            </p>
+            <h3 id="5-useful-features-in-projector">5. Useful Features in Projector</h3>
+            <h4 id="a-class-separation">a. Class Separation</h4>
+            <p>We can enable color coding of the points by their actual labels (positive vs negative) by using the
+              <strong>Color by</strong> dropdown in the left sidebar.</p>
+            <p>Select the name of the column that contains your labels. In our example file, the column name is
+              <strong>label</strong>.</p>
+            <p><img src="/images/projector-color-code-labels.png" alt="Coloring points by class label"
+                class="align-center" /></p>
+            <p>The points themselves are interactive. You can see the actual sentence for each point by hovering over
+              them.</p>
+            <p><img src="/images/projector-interactive-1.gif" alt="Hovering over points" class="align-center" /></p>
+            <p>You can click on the point to show the metadata. We can see below on clicking a blue point that its label
+              is “positive” in the popup.</p>
+            <p>So the blue points are positive and the red points are negative. When a point is selected, 100 nearest
+              points in terms of cosine similarity are also highlighted.</p>
+            <p><img src="/images/projector-click-point.gif" alt="Impact of clicking a data point"
+                class="align-center" /></p>
+            <p>To get back to the original view, we can click on any empty white space.</p>
+            <div class="notice--info">
+              <h4 class="no_toc">Applications</h4>
+              <p>The color coding can be a useful heuristic for many use cases:</p>
+              <ul>
+                <li>It can be used to explore class overlap for the dataset you're working on and identify tricky
+                  sentences.</li>
+                <li>If there are labeling errors in your dataset, then this might help uncover them. For example, if a
+                  whole cluster of points is in a certain color, but some single point in that cluster is in a different
+                  color, then that might be an outlier or labeling error.</li>
+              </ul>
+            </div>
+            <h4 id="b-dimensionality-reduction-algorithm">b. Dimensionality Reduction Algorithm</h4>
+            <p>The web app provides three standard dimensionality reduction techniques: <strong>UMAP</strong>,
+              <strong>T-SNE</strong>, and <strong>PCA</strong>.</p>
+            <p>You can choose the algorithm and their parameters from the bottom of the left sidebar.</p>
+            <p><img src="/images/projector-choose-dim-algorithm.png"
+                alt="Choosing the dimensionality reduction algorithm" class="align-center" /></p>
+            <h4 id="c-custom-linear-projection">c. Custom Linear Projection</h4>
+            <p>You can also use a custom keyword or full text as the axis using the <strong>CUSTOM</strong> tab. This
+              will apply a custom linear projection and can help us explore meaningful directions in the embedding
+              space.</p>
+            <p><img src="/images/projector-custom-dim.png" alt="Performing custom linear projection"
+                class="align-center" /></p>
+            <p>For example, the Gmail team tried setting “yeah” on the left side and “yes” on the right side. When they
+              projected encoder embeddings for email replies to this custom linear projection, they found replies in a
+              casual tone (e.g. Here you go) on the left side and responses in a more formal tone clustered towards the
+              right side.</p>
+            <p><img src="/images/projector-custom-direction.png" alt="Formal vs informal aspects as axis"
+                class="align-center" /></p>
+            <h2 id="conclusion">Conclusion</h2>
+            <p>Thus, Embedding Projector is a very useful tool to better understand the datasets and models we work
+              with.</p>
+            <h2 id="references">References</h2>
+            <ul>
+              <li>Daniel Smilkov et al., <a href="https://arxiv.org/abs/1611.05469">Embedding Projector: Interactive
+                  Visualization and Interpretation of Embeddings</a></li>
+            </ul>
+          </section>
+          <footer class="page__meta">
+            <p class="page__taxonomy">
+              <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+              <span itemprop="keywords">
+                <a href="/categories/#nlp" class="page__taxonomy-item" rel="tag">nlp</a>
+              </span>
+            </p>
+            <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong>
+              <time datetime="2020-10-08">October 8, 2020</time></p>
+          </footer>
+          <section class="page__share">
+            <a href="https://twitter.com/intent/tweet?via=amitness&text=Interactive+Analysis+of+Sentence+Embeddings%20https%3A%2F%2Famitness.com%2Finteractive-sentence-embeddings%2F"
+              class="btn btn--twitter"
+              onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+              title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Famitness.com%2Finteractive-sentence-embeddings%2F"
+              class="btn btn--facebook"
+              onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+              title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span>
+                Facebook</span></a>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Famitness.com%2Finteractive-sentence-embeddings%2F"
+              class="btn btn--linkedin"
+              onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;"
+              title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span>
+                LinkedIn</span></a>
+          </section>
+          <nav class="pagination">
+            <a href="/vscode-on-colab/" class="pagination--pager" title="VSCode on Google Colab
+">Previous</a>
+            <a href="/knowledge-transfer/" class="pagination--pager" title="Knowledge Transfer in Self Supervised Learning
+">Next</a>
+          </nav>
+        </div>
+        <div class="page__comments">
+          <h4 class="page__comments-title">Comments</h4>
+          <section id="utterances-comments"></section>
+        </div>
+      </article>
+      <div class="page__related">
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+        <div class="grid__wrapper">
+          <div class="grid__item">
+            <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+              <div class="archive__item-teaser">
+                <img src="/images/regex-cover.png" alt="">
+              </div>
+              <h2 class="archive__item-title no_toc" itemprop="headline">
+                <a href="/regex/" rel="permalink">A Visual Guide to Regular Expression
+                </a>
+              </h2>
+              <p class="page__meta">
+                <span class="page__meta-readtime">
+                  <i class="far fa-clock" aria-hidden="true"></i>
+                  7 minute read
+                </span>
+              </p>
+              <p class="archive__item-excerpt" itemprop="description">A mental model of how various components of a
+                regular expression work from the bottom-up.
+              </p>
+            </article>
+          </div>
+          <div class="grid__item">
+            <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+              <div class="archive__item-teaser">
+                <img src="/images/kt-step-3.png" alt="">
+              </div>
+              <h2 class="archive__item-title no_toc" itemprop="headline">
+                <a href="/knowledge-transfer/" rel="permalink">Knowledge Transfer in Self Supervised Learning
+                </a>
+              </h2>
+              <p class="page__meta">
+                <span class="page__meta-readtime">
+                  <i class="far fa-clock" aria-hidden="true"></i>
+                  8 minute read
+                </span>
+              </p>
+              <p class="archive__item-excerpt" itemprop="description">A general framework to transfer knowledge from
+                deep self-supervised models to shallow task-specific models
+              </p>
+            </article>
+          </div>
+          <div class="grid__item">
+            <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+              <div class="archive__item-teaser">
+                <img src="/images/colab-vscode.png" alt="">
+              </div>
+              <h2 class="archive__item-title no_toc" itemprop="headline">
+                <a href="/vscode-on-colab/" rel="permalink">VSCode on Google Colab
+                </a>
+              </h2>
+              <p class="page__meta">
+                <span class="page__meta-readtime">
+                  <i class="far fa-clock" aria-hidden="true"></i>
+                  2 minute read
+                </span>
+              </p>
+              <p class="archive__item-excerpt" itemprop="description">Learn how to setup and use VSCode as an IDE on
+                Google Colab and Kaggle.
+              </p>
+            </article>
+          </div>
+          <div class="grid__item">
+            <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+              <div class="archive__item-teaser">
+                <img src="/images/back-translation-marianmt.png" alt="">
+              </div>
+              <h2 class="archive__item-title no_toc" itemprop="headline">
+                <a href="/back-translation/" rel="permalink">Text Data Augmentation with MarianMT
+                </a>
+              </h2>
+              <p class="page__meta">
+                <span class="page__meta-readtime">
+                  <i class="far fa-clock" aria-hidden="true"></i>
+                  3 minute read
+                </span>
+              </p>
+              <p class="archive__item-excerpt" itemprop="description">Learn how to use machine translation models in
+                Hugging Face Transformers for data augmentation
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="search-content">
+    <div class="search-content__inner-wrap">
+      <form class="search-content__form" onkeydown="return event.key != 'Enter';">
+        <label class="sr-only" for="search">
+          Enter your search term...
+        </label>
+        <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+      </form>
+      <div id="results" class="results"></div>
+    </div>
+  </div>
+  <div id="footer" class="page__footer">
+    <footer>
+
+
+      <div class="page__footer-follow">
+        <ul class="social-icons">
+          <li><a href="http://bit.ly/amitnesstwitter" rel="nofollow noopener noreferrer"><i
+                class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+          <li><a href="https://github.com/amitness" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github"
+                aria-hidden="true"></i> GitHub</a></li>
+          <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+        </ul>
+      </div>
+      <div class="page__footer-copyright">&copy; 2021 Amit Chaudhary. Powered by <a href="https://jekyllrb.com"
+          rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/"
+          rel="nofollow">Minimal Mistakes</a>.</div>
+    </footer>
+  </div>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="/assets/js/lunr/lunr.min.js"></script>
+  <script src="/assets/js/lunr/lunr-store.js"></script>
+  <script src="/assets/js/lunr/lunr-en.js"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-98232022-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-98232022-1', { 'anonymize_ip': false });
+  </script>
+  <script>
+    'use strict';
+
+    (function () {
+      var commentContainer = document.querySelector('#utterances-comments');
+
+      if (!commentContainer) {
+        return;
+      }
+
+      var script = document.createElement('script');
+      script.setAttribute('src', 'https://utteranc.es/client.js');
+      script.setAttribute('repo', 'amitness/blog-comments');
+      script.setAttribute('issue-term', 'pathname');
+      script.setAttribute('theme', 'github-light');
+      script.setAttribute('crossorigin', 'anonymous');
+
+      commentContainer.appendChild(script);
+    })();
+  </script>
+</body>
+
+</html>

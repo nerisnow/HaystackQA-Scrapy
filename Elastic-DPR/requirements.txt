@@ -1,0 +1,4 @@
+urllib3==1.25.4
+git+https://github.com/deepset-ai/haystack.git
+flask==1.1.2
+gunicorn==20.0.4
