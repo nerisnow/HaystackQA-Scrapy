@@ -22,7 +22,7 @@ logger.basicConfig(level="INFO")
 
 
 #path for the data files
-doc_dir = "data"
+doc_dir = "./amitness/data"
 
 #instance for document store
 document_store = ElasticsearchDocumentStore(
