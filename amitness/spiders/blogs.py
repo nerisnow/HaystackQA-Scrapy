@@ -49,12 +49,14 @@ class BlogSpider(scrapy.Spider):
                 url=url, callback=self.parse_topics)
 
         else:
-            print("No next blosg found")
+            print("No next blog found")
         
 
     def parse(self, response):
         """ Parse a single blog from the list of blogs
         """
+        title = response.css("title::text").get()
+        filename = f"./data/{title}.txt"
         bl = ItemLoader(item = BlogItem(), response=response)
         content = response.css("section.page__content")
         
@@ -66,6 +68,10 @@ class BlogSpider(scrapy.Spider):
         bl.add_value("spider", self.name)
         bl.add_value("server", socket.gethostname())
         bl.add_value("date", datetime.now())
+
+        blog_text = ''.join(content.css("p::text").extract())
+        with open(filename, 'a') as f:
+            f.write(blog_text)
 
         return bl.load_item()
         
