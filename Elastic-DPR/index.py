@@ -21,20 +21,19 @@ logger.basicConfig(level="INFO")
 
 
 
-# #path for the data files
-# doc_dir = "data_times"
+#path for the data files
+doc_dir = "data"
 
 #instance for document store
 document_store = ElasticsearchDocumentStore(
     host="localhost", username="", password="", 
-    index="amitness", search_fields = ["title", "content"],
-    name_field = "title", text_field = "context")
+    index="amitblogs")
 
 # Convert files to dicts
-# dicts = convert_files_to_dicts(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
+dicts = convert_files_to_dicts(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
 
-#write the dicts containing documents to our DB.
-# document_store.write_documents(dicts)
+# write the dicts containing documents to our DB.
+document_store.write_documents(dicts)
 logger.info("Completed writing")
 # logger.info("Loading Retriever.")
 

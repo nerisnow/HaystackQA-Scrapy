@@ -10,8 +10,9 @@ logger.basicConfig(level="INFO")
 app = Flask(__name__)
 logger.info("Loading restapi.")
 
-document_store = ElasticsearchDocumentStore(host="localhost", username="", password="", index="amitness", search_fields = ["title", "content"],
-    name_field = "title", text_field = "content")
+document_store = ElasticsearchDocumentStore(host="localhost", username="", password="", 
+    index="amitblogs")
+
 logger.info("Initialization Of DPR.")
 retriever = DensePassageRetriever(document_store=document_store,
                                   query_embedding_model="facebook/dpr-question_encoder-single-nq-base",
@@ -24,8 +25,10 @@ retriever = DensePassageRetriever(document_store=document_store,
                                   use_fast_tokenizers=True)
 
 document_store.update_embeddings(retriever)
+
 logger.info("Initialization of reader.")
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=False)
+
 logger.info("Building pipeline.")
 pipe = ExtractiveQAPipeline(reader, retriever)
 
