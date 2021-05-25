@@ -8,13 +8,15 @@ from haystack.reader.farm import FARMReader
 
 logger.basicConfig(level="INFO")
 app = Flask(__name__)
-logger.info("Loading restapi.")
 
-document_store = ElasticsearchDocumentStore(host="localhost", username="", password="", 
-    index="amitblogs")
+logger.info("Loading restapi.")
+document_store = ElasticsearchDocumentStore(host="localhost", username="", password="", index="document")
+
+logger.info("Initialization Of ES Retriever.")
+es_retriever = ElasticsearchRetriever(document_store=document_store)
 
 logger.info("Initialization Of DPR.")
-retriever = DensePassageRetriever(document_store=document_store,
+dpr_retriever = DensePassageRetriever(document_store=document_store,
                                   query_embedding_model="facebook/dpr-question_encoder-single-nq-base",
                                   passage_embedding_model="facebook/dpr-ctx_encoder-single-nq-base",
                                   max_seq_len_query=64,
@@ -30,7 +32,13 @@ logger.info("Initialization of reader.")
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=False)
 
 logger.info("Building pipeline.")
-pipe = ExtractiveQAPipeline(reader, retriever)
+# pipe = ExtractiveQAPipeline(reader, retriever)
+
+p = Pipeline()
+p.add_node(component=es_retriever, name="ESRetriever1", inputs=["Query"])
+p.add_node(component=dpr_retriever, name="DPRRetriever1", inputs=["Query"])
+p.add_node(component=JoinDocuments(join_mode="concatenate"), name="JoinResults", inputs=["ESRetriever1", "DPRRetriever1"])
+p.add_node(component=reader, name="Reader", inputs=["JoinResults"])
 
 @app.route('/', methods=["GET"])
 def health():
