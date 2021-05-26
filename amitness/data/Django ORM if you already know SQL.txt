@@ -123,4 +123,29 @@ SQL:Django:
 SQL:Django: 
 SQL:Django:Consider a foreign key relationship between books and publisher.
 SQL:Django:
+SQL:Django:If you are migrating to Django from another MVC framework, chances are you already know SQL.In this post, I will be illustrating how to use Django ORM by drawing analogies to equivalent SQL statements. Connecting a new topic to your existing knowledge will help you learn to use the ORM faster.Let us consider a simple base model for a person with attributes name, age, and gender.To implement the above entity, we would model it as a table in SQL.The same table is modeled in Django as a class which inherits from the base Model class. The ORM creates the equivalent table under the hood.The most used data types are:The various queries we can use are:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:SQL:Django:SQL:Django:SQL:Django:SQL:Django:
+SQL:Django:
+SQL:Django:SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django:
+SQL:Django: 
+SQL:Django:Consider a foreign key relationship between books and publisher.
+SQL:Django:
 SQL:Django:
