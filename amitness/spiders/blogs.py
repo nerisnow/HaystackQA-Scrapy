@@ -55,13 +55,9 @@ class BlogSpider(scrapy.Spider):
 
         # saving parsed files in .txt
         title = response.css("title::text").get()
-        filename = f"./data/{title}.txt"    
-        blog_text = ''.join(content.css("p::text").extract())
-        with open(filename, 'a') as f:
-            f.write(blog_text)
-
+        
         # creating items
-        text = content.css("p::text").get()
+        text = ''.join(content.css("p::text").getall())
         title  = response.css("title::text").get()
         meta = MetaItem(title=title)
         blog = BlogItem(text=text, meta=meta)
@@ -73,6 +69,13 @@ class BlogSpider(scrapy.Spider):
     #     content = response.css("section.page__content")
         
     #     return ml.load_item()
+
+
+
+    # filename = f"./data/{title}.txt"    
+        # blog_text = ''.join(content.css("p::text").extract())
+        # with open(filename, 'a') as f:
+        #     f.write(blog_text)
         
 
 

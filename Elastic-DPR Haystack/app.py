@@ -2,7 +2,7 @@ import logging as logger
 from flask import Flask, request
 from haystack.document_store.elasticsearch import ElasticsearchDocumentStore
 
-from haystack.pipeline import ExtractiveQAPipeline
+from haystack.pipeline import ExtractiveQAPipeline, Pipeline, JoinDocuments
 from haystack.reader.farm import FARMReader
 from haystack.retriever.dense import DensePassageRetriever
 from haystack.retriever.sparse import ElasticsearchSRetriever

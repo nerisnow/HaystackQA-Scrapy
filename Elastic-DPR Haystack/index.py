@@ -28,7 +28,7 @@ s3_url = ""
 # directory to store fetched s3 data
 output_dir = ""
 
-fetch_archive_from_http(url=s3_url, output_dir=output_dir)
+# fetch_archive_from_http(url=s3_url, output_dir=output_dir)
 
 # Convert files to dicts
 # dicts = convert_files_to_dicts(
@@ -36,12 +36,15 @@ fetch_archive_from_http(url=s3_url, output_dir=output_dir)
 #     clean_func=clean_wiki_text,
 #     split_paragraphs=True)
 
-f = open('/output_dir/times.jl')
-dicts = json.load(f)
-f.close()
+list_of_dict =  []
+for line in open('/home/nirisha/amitness/amitness/blogs.json'):
+    list_of_dict.append(line)
+
+
+
 
 # write the dicts containing documents to our DB.
-document_store.write_documents(dicts)
+document_store.write_documents(lis_of_dict)
 logger.info("Completed writing")
 
 logger.info("Loading Retriever.")

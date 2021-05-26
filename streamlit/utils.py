@@ -3,7 +3,7 @@ import streamlit as st
 import logging as logger
 #servicename:portnumber/predict
 
-url = "https://cc0bc917b6de.ngrok.io/predict"
+url = "https://262d3bbf237f.ngrok.io/predict"
 
 def format_request(question):
     """ 
