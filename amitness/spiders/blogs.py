@@ -45,27 +45,34 @@ class BlogSpider(scrapy.Spider):
     def parse(self, response):
         """ Parse a single blog from the list of blogs
         """
-        title = response.css("title::text").get()
-        bl = ItemLoader(item = BlogItem(), response=response)
+        # bl = ItemLoader(item = BlogItem(), response=response)
+        # ml = ItemLoader(item=MetaItem(), response=response)
         content = response.css("section.page__content")
         
         # adding value to the item containers 
-        bl.add_value("text", content.css("p::text").getall())
-        bl.add_value("meta", self.get_meta(response))
+        # bl.add_value("text", content.css("p::text").getall())
+        # bl.add_value("meta", {"title": response.css("title::text").get()})
 
         # saving parsed files in .txt
+        title = response.css("title::text").get()
         filename = f"./data/{title}.txt"    
         blog_text = ''.join(content.css("p::text").extract())
         with open(filename, 'a') as f:
             f.write(blog_text)
 
-        return bl.load_item()
+        # creating items
+        text = content.css("p::text").getall()
+        title  = response.css("title::text").get()
+        meta = MetaItem(title=title)
+        blog = BlogItem(text=text, meta=meta)
+        return blog
+        # return bl.load_item()
 
-    def get_meta(self, response):
-        ml = ItemLoader(item=MetaItem(), response=response)
-        content = response.css("section.page__content")
-        ml.add_value("title", response.css("title::text").get())
-        return ml.load_item()
+    # def get_meta(self, response):
+        
+    #     content = response.css("section.page__content")
+        
+    #     return ml.load_item()
         
 
 
