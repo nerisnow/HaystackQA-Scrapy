@@ -65,6 +65,7 @@ ROBOTSTXT_OBEY = True
 ES_PIPELINE_URL = "http://localhost:9200/"
 ITEM_PIPELINES = {
    'amitness.pipelines.es.EsWriter': 300,
+   "amitness.pipelines.export_pipeline.JsonWriterPipeline": 200
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

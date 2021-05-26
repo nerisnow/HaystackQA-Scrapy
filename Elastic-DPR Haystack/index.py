@@ -1,42 +1,50 @@
+import json
 import logging as logger
 from zipfile import ZipFile
 from haystack.preprocessor.cleaning import clean_wiki_text
-from haystack.preprocessor.utils import convert_files_to_dicts
+from haystack.preprocessor.utils import fetch_archive_from_http, convert_files_to_dicts
 from haystack.document_store.elasticsearch import ElasticsearchDocumentStore
 from haystack.retriever.dense import DensePassageRetriever
 
+
 logger.basicConfig(level="INFO")
 
-# file_name = "data2.zip"
-  
-# opening the zip file in READ mode
-# with ZipFile(file_name, 'r') as zip:
-#     # printing all the contents of the zip file
-#     zip.printdir()
-  
-#     # extracting all the files
-#     logger.info('Extracting all the files now...')
-#     zip.extractall()
-#     logger.info("Completed Extracting")
+#path for the .txt data files
+local_doc_dir = "/content/HaystackQA-Scrapy/amitness/data"
 
-
-
-#path for the data files
-doc_dir = "./amitness/data"
-
-#instance for document store
+# instance for document store
 document_store = ElasticsearchDocumentStore(
     host="localhost", username="", password="", 
     index="amitblogs")
 
+# clearing any previously indexed documents
+document_store.delete_all_documents()
+
+
+## download and prepare scraped data 
+# s3 instance api
+s3_url = ""
+
+# directory to store fetched s3 data
+output_dir = ""
+
+fetch_archive_from_http(url=s3_url, output_dir=output_dir)
+
 # Convert files to dicts
-dicts = convert_files_to_dicts(dir_path=doc_dir,clean_func=clean_wiki_text,split_paragraphs=True)
+# dicts = convert_files_to_dicts(
+#     dir_path=output_dir,
+#     clean_func=clean_wiki_text,
+#     split_paragraphs=True)
+
+f = open('/output_dir/times.jl')
+dicts = json.load(f)
+f.close()
 
 # write the dicts containing documents to our DB.
 document_store.write_documents(dicts)
 logger.info("Completed writing")
-logger.info("Loading Retriever.")
 
+logger.info("Loading Retriever.")
 #create retriever
 retriever = DensePassageRetriever(document_store=document_store,
                                   query_embedding_model="facebook/dpr-question_encoder-single-nq-base",

@@ -2,9 +2,11 @@ import logging as logger
 from flask import Flask, request
 from haystack.document_store.elasticsearch import ElasticsearchDocumentStore
 
-from haystack.retriever.dense import DensePassageRetriever
 from haystack.pipeline import ExtractiveQAPipeline
 from haystack.reader.farm import FARMReader
+from haystack.retriever.dense import DensePassageRetriever
+from haystack.retriever.sparse import ElasticsearchSRetriever
+
 
 logger.basicConfig(level="INFO")
 app = Flask(__name__)
@@ -26,7 +28,7 @@ dpr_retriever = DensePassageRetriever(document_store=document_store,
                                   embed_title=True,
                                   use_fast_tokenizers=True)
 
-# document_store.update_embeddings(retriever)
+# document_store.update_embeddings(dpr_retriever)
 
 logger.info("Initialization of reader.")
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=False)
@@ -51,7 +53,7 @@ def predict():
     logger.info("processing question")
     data = request.get_json()
     if data['questions'] is not None:
-        response = pipe.run(query=data['questions'], top_k_retriever=10, top_k_reader=5)
+        response = p.run(query=data['questions'], top_k_retriever=10, top_k_reader=5)
         print(response)
         logger.info("processing completed")
         return response

@@ -16,7 +16,7 @@ class EsWriter(object):
 
     def __init__(self, es_url):
         self.es_url = es_url
-        self.index = "amitness"
+        self.index = "amitness_blogs"
 
     def open_spider(self, spider):
         self.client = Elasticsearch(self.es_url)

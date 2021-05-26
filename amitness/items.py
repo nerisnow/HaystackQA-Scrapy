@@ -12,16 +12,19 @@ class CustomField(Field):
     def __init__(self):
         super().__init__(output_processor=TakeFirst())
 
-
-class BlogItem(Item):
+class MetaItem(Item):
     # Scraped fields
     title = CustomField()
-    # duration = CustomField()
-    content = Field(output_processor=Join())
 
-    # Housekeeping Fields
-    project = CustomField()
-    spider = CustomField()
-    server = CustomField()
-    date = CustomField()
+
+class BlogItem(Item):
+    # duration = CustomField()
+    text = Field(output_processor=Join())
+    meta  = Field(serializer=MetaItem)
+
+    # # Housekeeping Fields
+    # project = CustomField()
+    # spider = CustomField()
+    # server = CustomField()
+    # date = CustomField()
     

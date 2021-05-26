@@ -5,7 +5,7 @@ import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.loader import ItemLoader
 
-from amitness.items import BlogItem
+from amitness.items import BlogItem, MetaItem
 
 
 class BlogSpider(scrapy.Spider):
@@ -19,11 +19,6 @@ class BlogSpider(scrapy.Spider):
     def parse_topics(self, response):
         """ Parse the list of blogs from the webiste
         """
-        # filename  = 'amitness_blog.html'
-
-        # with open(filename, 'wb') as f:
-        #     f.write(response.body)
-
         paths = response.css("div.entries-list div.list__item a::attr(href)").getall()
         print(paths)
         for path in paths:
@@ -33,11 +28,6 @@ class BlogSpider(scrapy.Spider):
             yield scrapy.Request(
                 url = path_url, callback=self.parse
             )
-
-        # for m in response.css("nav.pagination a"):
-        #     if m.css("a::text").get()=="Next":
-        #         href = m.css("a::attr(href)").get() 
-        #         print(href)
         
         next_url = [m.css("a::attr(href)").get() for m in response.css("nav.pagination a") if m.css("a::text").get()=="Next"]
         
@@ -56,24 +46,26 @@ class BlogSpider(scrapy.Spider):
         """ Parse a single blog from the list of blogs
         """
         title = response.css("title::text").get()
-        filename = f"./data/{title}.txt"
         bl = ItemLoader(item = BlogItem(), response=response)
         content = response.css("section.page__content")
         
-        bl.add_value("title", response.css("title::text").get())
-        # bl.add_value("duration", response.css(".page__meta-readtime::text").getall())
-        bl.add_value("content", content.css("p::text").getall())
+        # adding value to the item containers 
+        bl.add_value("text", content.css("p::text").getall())
+        bl.add_value("meta", self.get_meta(response))
 
-        bl.add_value("project", self.settings.get("BOT_NAME"))
-        bl.add_value("spider", self.name)
-        bl.add_value("server", socket.gethostname())
-        bl.add_value("date", datetime.now())
-
+        # saving parsed files in .txt
+        filename = f"./data/{title}.txt"    
         blog_text = ''.join(content.css("p::text").extract())
         with open(filename, 'a') as f:
             f.write(blog_text)
 
         return bl.load_item()
+
+    def get_meta(self, response):
+        ml = ItemLoader(item=MetaItem(), response=response)
+        content = response.css("section.page__content")
+        ml.add_value("title", response.css("title::text").get())
+        return ml.load_item()
         
 
 
