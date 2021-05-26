@@ -35,16 +35,15 @@ output_dir = ""
 #     dir_path=output_dir,
 #     clean_func=clean_wiki_text,
 #     split_paragraphs=True)
+filename  = ""
+list_of_dict = []
 
-list_of_dict =  []
-for line in open('/home/nirisha/amitness/amitness/blogs.json'):
-    list_of_dict.append(line)
+with open(filename, 'rb') as f:
+    for item in json_lines.reader(f):
+        list_of_dict.append(item)
 
-
-
-
-# write the dicts containing documents to our DB.
-document_store.write_documents(lis_of_dict)
+# write the dicts containing documents to our DS.
+document_store.write_documents(list_of_dict)
 logger.info("Completed writing")
 
 logger.info("Loading Retriever.")
