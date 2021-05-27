@@ -5,14 +5,14 @@ from haystack.document_store.elasticsearch import ElasticsearchDocumentStore
 from haystack.pipeline import ExtractiveQAPipeline, Pipeline, JoinDocuments
 from haystack.reader.farm import FARMReader
 from haystack.retriever.dense import DensePassageRetriever
-from haystack.retriever.sparse import ElasticsearchSRetriever
+from haystack.retriever.sparse import ElasticsearchRetriever
 
 
 logger.basicConfig(level="INFO")
 app = Flask(__name__)
 
 logger.info("Loading restapi.")
-document_store = ElasticsearchDocumentStore(host="localhost", username="", password="", index="document")
+document_store = ElasticsearchDocumentStore(host="localhost", username="", password="", index="amitblogs")
 
 logger.info("Initialization Of ES Retriever.")
 es_retriever = ElasticsearchRetriever(document_store=document_store)
@@ -34,7 +34,7 @@ logger.info("Initialization of reader.")
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=False)
 
 logger.info("Building pipeline.")
-# pipe = ExtractiveQAPipeline(reader, retriever)
+# p = ExtractiveQAPipeline(reader, dpr_retriever)
 
 p = Pipeline()
 # p.add_node(component=es_retriever, name="ESRetriever1", inputs=["Query"])

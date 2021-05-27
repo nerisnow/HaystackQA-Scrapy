@@ -1,4 +1,6 @@
 import json
+import json_lines
+
 import logging as logger
 from zipfile import ZipFile
 from haystack.preprocessor.cleaning import clean_wiki_text
@@ -14,8 +16,7 @@ local_doc_dir = "/content/HaystackQA-Scrapy/amitness/data"
 
 # instance for document store
 document_store = ElasticsearchDocumentStore(
-    host="localhost", username="", password="", 
-    index="amitblogs")
+    host="localhost", username="", password="", index="amitblogs")
 
 # clearing any previously indexed documents
 document_store.delete_all_documents()
@@ -36,7 +37,7 @@ output_dir = ""
 #     clean_func=clean_wiki_text,
 #     split_paragraphs=True)
 
-filename  = "/content/HaystackQA-Scrapy/amitness/data/blogs.jl"
+filename  = "/content/HaystackQA-Scrapy/amitness/blogs.jl"
 list_of_dict = []
 
 with open(filename, 'rb') as f:
