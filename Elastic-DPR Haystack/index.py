@@ -35,7 +35,8 @@ output_dir = ""
 #     dir_path=output_dir,
 #     clean_func=clean_wiki_text,
 #     split_paragraphs=True)
-filename  = ""
+
+filename  = "/content/HaystackQA-Scrapy/amitness/data/blogs.jl"
 list_of_dict = []
 
 with open(filename, 'rb') as f:

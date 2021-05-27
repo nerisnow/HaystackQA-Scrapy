@@ -11,8 +11,7 @@ list_of_dict = []
 with open(filename, 'rb') as f:
     for item in json_lines.reader(f):
         list_of_dict.append(item)
-        if len(list_of_dict)==5:
-            break
+       
 
 print(list_of_dict)
 

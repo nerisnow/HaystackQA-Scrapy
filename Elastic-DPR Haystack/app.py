@@ -37,10 +37,12 @@ logger.info("Building pipeline.")
 # pipe = ExtractiveQAPipeline(reader, retriever)
 
 p = Pipeline()
-p.add_node(component=es_retriever, name="ESRetriever1", inputs=["Query"])
+# p.add_node(component=es_retriever, name="ESRetriever1", inputs=["Query"])
 p.add_node(component=dpr_retriever, name="DPRRetriever1", inputs=["Query"])
-p.add_node(component=JoinDocuments(join_mode="concatenate"), name="JoinResults", inputs=["ESRetriever1", "DPRRetriever1"])
-p.add_node(component=reader, name="Reader", inputs=["JoinResults"])
+# p.add_node(component=JoinDocuments(join_mode="concatenate"), name="JoinResults", inputs=["ESRetriever1", "DPRRetriever1"])
+# p.add_node(component=reader, name="Reader", inputs=["JoinResults"])
+p.add_node(component=reader, name="Reader", inputs=["DPRRetriever1"])
+# p.draw()
 
 @app.route('/', methods=["GET"])
 def health():
@@ -53,7 +55,7 @@ def predict():
     logger.info("processing question")
     data = request.get_json()
     if data['questions'] is not None:
-        response = p.run(query=data['questions'], top_k_retriever=10, top_k_reader=5)
+        response = p.run(query=data['questions'], top_k_retriever=10, top_k_reader=3)
         print(response)
         logger.info("processing completed")
         return response
