@@ -3,7 +3,7 @@ import streamlit as st
 import logging as logger
 #servicename:portnumber/predict
 
-url = "https://ae362e42093e.ngrok.io/predict"
+url = "https://7efd28fdc512.ngrok.io/predict"
 
 def format_request(question):
     """ 
@@ -29,7 +29,7 @@ def get_results(response):
         answer = answers[i]['answer']
         if answer:
             context = '...' + answers[i]['context'] + '...'
-            meta_name = answers[i]['meta']['name']
+            meta_name = answers[i]['meta']['title']
             relevance = round(answers[i]['probability']*100,2)
             #checking the context for avoiding duplicate data.
             if context not in context_check:
