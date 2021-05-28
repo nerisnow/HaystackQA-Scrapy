@@ -64,16 +64,21 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ES_PIPELINE_URL = "http://localhost:9200/"
 ITEM_PIPELINES = {
-   'amitness.pipelines.es.EsWriter': 300,
-   "amitness.pipelines.export_pipeline.JsonWriterPipeline": 200
+   # 'amitness.pipelines.es.EsWriter': 300,
+   # "amitness.pipelines.export_pipeline.JsonWriterPipeline": 200,
+   'amitness.pipelines.export_s3.S3Writer':100,
+   
 }
+S3PIPELINE_MAX_CHUNK_SIZE=1
+S3PIPELINE_GZIP=False
+S3PIPELINE_URL = 's3://time-magazine-information-assistant-s3/article/{chunk}.jl'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
-# The maximum download delay to be set in case of high latencies
+# The maximum download delay to be set in caswe of high latencies
 #AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
