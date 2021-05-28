@@ -62,11 +62,17 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ES_PIPELINE_URL = "http://localhost:9200/"
+
+# ES_PIPELINE_URL = "http://localhost:9200/"
 ITEM_PIPELINES = {
-   'amitness.pipelines.es.EsWriter': 300,
-   "amitness.pipelines.export_pipeline.JsonWriterPipeline": 200
+   # 'amitness.pipelines.es.EsWriter': 300,
+   "amitness.pipelines.export_pipeline.JsonWriterPipeline": 200,
+   "amitness.pipelines.s3pipeline.pipelines.S3Pipeline":100
 }
+
+S3PIPELINE_MAX_CHUNK_SIZE=1
+S3PIPELINE_GZIP=False
+S3PIPELINE_URL = 's3://time-magazine-information-assistant-s3/blogs/items.{chunk}.jl'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

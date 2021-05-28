@@ -8,7 +8,7 @@ class JsonWriterPipeline:
     """
 
     def open_spider(self, spider):
-        self.file = open('blogs.json', 'w')
+        self.file = open('blogs.jl', 'w')
 
     def close_spider(self, spider):
         self.file.close()
