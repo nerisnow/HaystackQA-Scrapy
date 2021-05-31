@@ -66,8 +66,9 @@ ROBOTSTXT_OBEY = True
 # ES_PIPELINE_URL = "http://localhost:9200/"
 ITEM_PIPELINES = {
    # 'amitness.pipelines.es.EsWriter': 300,
-   "amitness.pipelines.export_pipeline.JsonWriterPipeline": 200,
-   "amitness.pipelines.s3pipeline.pipelines.S3Pipeline":100
+   # "amitness.pipelines.export_pipeline.JsonWriterPipeline": 200,
+   "amitness.pipelines.s3pipeline.pipelines.S3Pipeline":100,
+   "scrape_articles.pipelines.s3pipeline.S3Writer": 100
 }
 
 S3PIPELINE_MAX_CHUNK_SIZE=1
