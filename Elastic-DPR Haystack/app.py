@@ -28,20 +28,34 @@ dpr_retriever = DensePassageRetriever(document_store=document_store,
                                   embed_title=True,
                                   use_fast_tokenizers=True)
 
-# document_store.update_embeddings(dpr_retriever)
 
 logger.info("Initialization of reader.")
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=False)
 
-logger.info("Building pipeline.")
-# p = ExtractiveQAPipeline(reader, dpr_retriever)
+logger.info("Runnning query classifier")
+class QueryClassifier():
+    outgoing_edges = 2
 
-p = Pipeline()
-p.add_node(component=es_retriever, name="ESRetriever1", inputs=["Query"])
-p.add_node(component=dpr_retriever, name="DPRRetriever1", inputs=["Query"])
-p.add_node(component=JoinDocuments(join_mode="concatenate"), name="JoinResults", inputs=["ESRetriever1", "DPRRetriever1"])
-p.add_node(component=reader, name="Reader", inputs=["JoinResults"])
-# p.add_node(component=reader, name="Reader", inputs=["DPRRetriever1"])
+    def run(self, **kwargs):
+        if "?" in kwargs["query"]:
+            return (kwargs, "output_2")
+        else:
+logger.info("Building pipeline.")
+
+# p = Pipeline()
+# p.add_node(component=es_retriever, name="ESRetriever", inputs=["Query"])
+# p.add_node(component=dpr_retriever, name="DPRRetriever", inputs=["Query"])
+# p.add_node(component=JoinDocuments(join_mode="concatenate"), name="JoinResults", inputs=["ESRetriever", "DPRRetriever"])
+# p.add_node(component=reader, name="Reader", inputs=["JoinResults"])
+
+p_classifier = Pipeline()
+p_classifier.add_node(component=QueryClassifier(), name="QueryClassifier", inputs=["Query"])
+p_classifier.add_node(component=es_retriever, name="ESRetriever", inputs=["QueryClassifier.output_1"])
+p_classifier.add_node(component=dpr_retriever, name="DPRRetriever", inputs=["QueryClassifier.output_2"])
+p_classifier.add_node(component=reader, name="QAReader", inputs=["ESRetriever", "DPRRetriever"])
+
+
+logger.info("Building pipeline.")
 
 @app.route('/', methods=["GET"])
 def health():
@@ -54,7 +68,7 @@ def predict():
     logger.info("processing question")
     data = request.get_json()
     if data['questions'] is not None:
-        response = p.run(query=data['questions'], top_k_retriever=10, top_k_reader=3)
+        response = p_classifier.run(query=data['questions'], top_k_retriever=10)
         print(response)
         logger.info("processing completed")
         return response
