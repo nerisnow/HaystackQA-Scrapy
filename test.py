@@ -39,7 +39,7 @@ output_dir = ""
 #     clean_func=clean_wiki_text,
 #     split_paragraphs=True)
 
-filename  = "/content/HaystackQA-Scrapy/amitness/blogs.jl"
+filename  = "/home/nirisha/amitness/amitness/blogs.jl"
 list_of_dict = []
 
 with open(filename, 'rb') as f:
@@ -52,13 +52,14 @@ processor = PreProcessor(
     clean_whitespace=True,
     clean_header_footer=True,
     split_by="word",
-    split_length=200,
+    split_length=100,
     split_respect_sentence_boundary=True,
-    split_overlap=50
+    # split_overlap=50
 )
 
 final_dicts = [subdoc for doc in list_of_dict for subdoc in processor.process(doc)]
 
+print("Number of document to be indexed:",len(final_dicts))
 
 # write the dicts containing documents to our DS.
 document_store.write_documents(final_dicts)

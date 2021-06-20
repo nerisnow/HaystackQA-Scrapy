@@ -14,7 +14,7 @@ class CustomField(Field):
 
 class MetaItem(Item):
     # Scraped fields
-    title = Field()
+    name = Field()
 
 class BlogItem(Item):
     # duration = CustomField()

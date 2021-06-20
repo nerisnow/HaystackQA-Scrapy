@@ -33,6 +33,8 @@ dpr_retriever = DensePassageRetriever(document_store=document_store,
 logger.info("Initialization of reader.")
 reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=False)
 
+# reader = FARMReader("ahotrod/albert_xxlargev1_squad2_512")
+
 logger.info("Building pipeline.")
 # p = ExtractiveQAPipeline(reader, dpr_retriever)
 

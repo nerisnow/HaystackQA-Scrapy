@@ -59,7 +59,7 @@ class BlogSpider(scrapy.Spider):
         # creating items
         text = ''.join(content.css("p::text").getall())
         title  = response.css("title::text").get()
-        meta = MetaItem(title=title)
+        meta = MetaItem(name=title)
         blog = BlogItem(text=text, meta=meta)
         return blog
         # return bl.load_item()
