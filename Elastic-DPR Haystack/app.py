@@ -37,15 +37,15 @@ reader = FARMReader(model_name_or_path="deepset/roberta-base-squad2", use_gpu=Fa
 
 logger.info("Building pipeline.")
 p = Pipeline()
-p.add_node(component=es_retriever, name="ESRetriever1", inputs=["Query"])
 p.add_node(component=dpr_retriever, name="DPRRetriever1", inputs=["Query"])
-p.add_node(
-    component=JoinDocuments(join_mode="concatenate"),
-    name="JoinResults",
-    inputs=["ESRetriever1", "DPRRetriever1"],
-)
-p.add_node(component=reader, name="Reader", inputs=["JoinResults"])
-# p.add_node(component=reader, name="Reader", inputs=["DPRRetriever1"])
+# p.add_node(component=es_retriever, name="ESRetriever1", inputs=["Query"])
+# p.add_node(
+#     component=JoinDocuments(join_mode="concatenate"),
+#     name="JoinResults",
+#     inputs=["ESRetriever1", "DPRRetriever1"],
+# )
+# p.add_node(component=reader, name="Reader", inputs=["JoinResults"])
+p.add_node(component=reader, name="Reader", inputs=["DPRRetriever1"])
 
 
 @app.route("/", methods=["GET"])
