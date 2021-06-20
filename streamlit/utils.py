@@ -4,7 +4,7 @@ import logging as logger
 
 # servicename:portnumber/predict
 
-url = "http://988d691ed1cc.ngrok.io/predict"
+url = "http://904eac970fbb.ngrok.io/predict"
 
 
 def format_request(question):
